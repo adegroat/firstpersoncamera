@@ -8,48 +8,16 @@
 class Input {
 public:
 	static std::map<int, bool> keys;
+	static std::map<int, bool> keyToggles;
 
-	// Mouse x, y, dx, and dy
-	static double mx, my, mdx, mdy;
-
+	static double mx, my, mdx, mdy; 	// Mouse x, y, dx, and dy
 	static bool mouseLeft;
 
-	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-		if(action == GLFW_PRESS) {
-			keys[key] = true;
-		}
-		if(action == GLFW_RELEASE) {
-			keys[key] = false;
-		}
-	}
+	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-	static void mouseCallback(GLFWwindow* window, double x, double y) {
-		mdx = x - mx;
-		mdy = y - my;
+	static void mouseCallback(GLFWwindow* window, double x, double y);
 
-		mx = x;
-		my = y;
-	}
-
-	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
-		if(action == GLFW_PRESS) {
-			if(button == GLFW_MOUSE_BUTTON_LEFT) mouseLeft = true;
-		}
-
-		if(action == GLFW_RELEASE) {
-			if(button == GLFW_MOUSE_BUTTON_LEFT) mouseLeft = false;
-		}
-	}
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 };
-
-std::map<int, bool> Input::keys;
-
-double Input::mx;
-double Input::my;
-
-double Input::mdx;
-double Input::mdy;
-
-bool Input::mouseLeft;
 
 #endif

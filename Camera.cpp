@@ -2,10 +2,10 @@
 
 #include "Input.h"
 
-Camera::Camera() {
-	camPos.x = 0.0f;
-	camPos.y = 20.0f;
-	camPos.z = 50.0f;
+Camera::Camera(float x, float y, float z) {
+	position.x = x;
+	position.y = y;
+	position.z = z;
 
 	lookAtPoint.x = 0.0f;
 	lookAtPoint.y = 0.0f;
@@ -31,38 +31,5 @@ glm::mat4 Camera::viewMatrix() {
 	direction.x = cos(yaw);
 	direction = glm::normalize(direction);
 
-	return glm::lookAt(camPos, camPos + direction, upVec);
-}
-
-void Camera::update() {
-	if(Input::keys[GLFW_KEY_W]) {
-		camPos += direction;
-	}
-
-	if(Input::keys[GLFW_KEY_S]) {
-		camPos -= direction;
-	}
-
-	if(Input::keys[GLFW_KEY_A]) {
-		glm::vec3 strafeDir = glm::normalize(glm::cross(upVec, direction));
-		camPos += strafeDir;
-	}
-
-	if(Input::keys[GLFW_KEY_D]) {
-		glm::vec3 strafeDir = glm::normalize(glm::cross(upVec, direction));
-		camPos -= strafeDir;	
-	}
-
-	// Look left and right
-	if(Input::keys[GLFW_KEY_LEFT]) {
-		yaw -= rotationSpeed;
-	}
-
-	if(Input::keys[GLFW_KEY_RIGHT]) {
-		yaw += rotationSpeed;
-	}
-	if(abs(Input::mdx) > 1.0f) {
-		yaw += Input::mdx * 0.01f;
-		Input::mdx = 0.0f;
-	}
+	return glm::lookAt(position, position + direction, upVec);
 }

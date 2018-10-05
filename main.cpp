@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-#include "Camera.h"
+#include "Player.h"
 #include "Input.h"
 
 void errorCallback(int error, const char* msg) {
@@ -17,13 +17,16 @@ void errorCallback(int error, const char* msg) {
 void update();
 void draw();
 
-const int WIDTH = 640;
-const int HEIGHT = 480;
-const int WORLD_RADIUS = 25;
+const int WIDTH = 1280;
+const int HEIGHT = 800;
+const int WORLD_RADIUS = 50;
 
-Camera cam;
+GLFWwindow* window;
+
+Player* player;
 
 void initialize() {
+	player = new Player(0.0f, 20.0f, 0.0f);
 }
 
 int main() {
@@ -39,21 +42,21 @@ int main() {
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "GLFW Setup", NULL, NULL);
+	window = glfwCreateWindow(WIDTH, HEIGHT, "GLFW Setup", NULL, NULL);
 	if(!window) {
 		std::cout << "Failed to create window!" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
 
+	// Mouse and keyboard callbacks
 	glfwSetKeyCallback(window, Input::keyboardCallback);
 	glfwSetCursorPosCallback(window, Input::mouseCallback);
 	glfwSetMouseButtonCallback(window, Input::mouseButtonCallback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
+
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -64,10 +67,6 @@ int main() {
 	while(!glfwWindowShouldClose(window)) {
 		glDrawBuffer(GL_BACK);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		if(Input::keys[GLFW_KEY_Q]){
-			glfwSetWindowShouldClose(window, GLFW_TRUE);
-		}
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -81,7 +80,7 @@ int main() {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		glm::mat4 viewMatrix = cam.viewMatrix();
+		glm::mat4 viewMatrix = player->viewMatrix();
 		glMultMatrixf(&viewMatrix[0][0]);
 
 		update();
@@ -92,6 +91,8 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	delete player;
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -124,5 +125,15 @@ void draw() {
 }
 
 void update() {
-	cam.update();
+	if(Input::keys[GLFW_KEY_Q]){
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+
+	if(Input::keyToggles[GLFW_KEY_ESCAPE]) {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	} else {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+	player->update();
 }
