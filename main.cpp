@@ -14,9 +14,10 @@
 void errorCallback(int error, const char* msg) {
 	std::cout << "Error: " << msg << std::endl;
 }
-void update();
+void update(float dt);
 void draw();
 
+float fps = 60.0f;
 const int WIDTH = 1280;
 const int HEIGHT = 800;
 const int WORLD_RADIUS = 50;
@@ -64,7 +65,15 @@ int main() {
 
 	initialize();
 
+	double startTime = glfwGetTime();
+
 	while(!glfwWindowShouldClose(window)) {
+		float dt = glfwGetTime() - startTime;
+		if(dt >= 1.0f/fps) {
+			dt = 1.0f/fps;
+		}
+		startTime = glfwGetTime();
+
 		glDrawBuffer(GL_BACK);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -83,7 +92,7 @@ int main() {
 		glm::mat4 viewMatrix = player->viewMatrix();
 		glMultMatrixf(&viewMatrix[0][0]);
 
-		update();
+		update(dt);
 
 		// draw stuff
 		draw();
@@ -124,7 +133,7 @@ void draw() {
 	drawFloor();
 }
 
-void update() {
+void update(float dt) {
 	if(Input::keys[GLFW_KEY_Q]) {
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
@@ -135,5 +144,5 @@ void update() {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
-	player->update();
+	player->update(dt);
 }

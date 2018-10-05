@@ -22,7 +22,7 @@ Camera::Camera(float x, float y, float z) {
 	yaw = 0.0f;
 	pitch = 0.0f;
 
-	rotationSpeed = 0.05f;
+	rotationSpeed = 0.5f;
 }
 
 glm::mat4 Camera::viewMatrix() {
@@ -31,5 +31,9 @@ glm::mat4 Camera::viewMatrix() {
 	forward.z = sin(yaw);
 	forward = glm::normalize(forward);
 
-	return glm::lookAt(position, position + forward, upVec);
+	lookAtPoint.x = 0.0f;
+	lookAtPoint.z = 0.0f;
+	lookAtPoint.y = sin(pitch);
+
+	return glm::lookAt(position, position + forward + lookAtPoint, upVec);
 }

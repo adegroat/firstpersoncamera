@@ -15,7 +15,7 @@ class Player : public Camera {
 public:
 	Player(float x, float y, float z);
 
-	void update();
+	void update(float dt);
 	void printPos();
 
 private:
