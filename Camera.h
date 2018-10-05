@@ -8,7 +8,7 @@ class Camera {
 
 protected:
 	glm::vec3 position;
-	glm::vec3 direction;
+	glm::vec3 forward; // always points forward
 	glm::vec3 lookAtPoint;
 	glm::vec3 upVec;
 

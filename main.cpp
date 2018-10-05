@@ -125,7 +125,7 @@ void draw() {
 }
 
 void update() {
-	if(Input::keys[GLFW_KEY_Q]){
+	if(Input::keys[GLFW_KEY_Q]) {
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 

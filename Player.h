@@ -20,6 +20,7 @@ public:
 
 private:
 	float moveSpeed;
+	glm::vec3 velocity;
 };
 
 #endif

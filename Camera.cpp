@@ -15,9 +15,9 @@ Camera::Camera(float x, float y, float z) {
 	upVec.y = 1.0f;
 	upVec.z = 0.0f;
 
-	direction.x = 0.0f;
-	direction.y = 0.0f;
-	direction.z = -1.0f;
+	forward.x = 0.0f;
+	forward.y = 0.0f;
+	forward.z = -1.0f;
 
 	yaw = 0.0f;
 	pitch = 0.0f;
@@ -26,10 +26,10 @@ Camera::Camera(float x, float y, float z) {
 }
 
 glm::mat4 Camera::viewMatrix() {
-	direction.z = sin(yaw);
-	direction.y = 0.0f;
-	direction.x = cos(yaw);
-	direction = glm::normalize(direction);
+	forward.x = cos(yaw);
+	forward.y = 0.0f;
+	forward.z = sin(yaw);
+	forward = glm::normalize(forward);
 
-	return glm::lookAt(position, position + direction, upVec);
+	return glm::lookAt(position, position + forward, upVec);
 }

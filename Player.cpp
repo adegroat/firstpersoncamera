@@ -5,25 +5,27 @@ Player::Player(float x, float y, float z) : Camera(x, y, z) {
 }
 
 void Player::update() {
+
 	// Movement forward, backward, left, right
 	if(Input::keys[GLFW_KEY_W]) {
-		position.y = 20.0f + sin(glfwGetTime() * 6.0f);
-
-		position += direction * moveSpeed;
+		velocity = forward * moveSpeed;
+		position += velocity; 
 	}
 
 	if(Input::keys[GLFW_KEY_S]) {
-		position -= direction * moveSpeed;
+		velocity = -forward * moveSpeed;
+		position += velocity; 
 	}
 
 	if(Input::keys[GLFW_KEY_A]) {
-		glm::vec3 strafeDir = glm::normalize(glm::cross(upVec, direction));
-		position += strafeDir * moveSpeed;
+		glm::vec3 strafeVec = glm::normalize(glm::cross(upVec, forward));
+		velocity = strafeVec * moveSpeed;
+		position += velocity; 
 	}
-
 	if(Input::keys[GLFW_KEY_D]) {
-		glm::vec3 strafeDir = glm::normalize(glm::cross(upVec, direction));
-		position -= strafeDir * moveSpeed;	
+		glm::vec3 strafeVec = glm::normalize(glm::cross(upVec, forward));
+		velocity = strafeVec * moveSpeed;
+		position -= velocity;
 	}
 
 	// Look left and right
@@ -38,6 +40,11 @@ void Player::update() {
 	if(abs(Input::mdx) > 0.1f) {
 		yaw += Input::mdx * 0.01f;
 		Input::mdx = 0.0f;
+	}
+
+	if(abs(Input::mdy) > 0.1f) {
+		pitch -= Input::mdy * 0.01f;
+		Input::mdy = 0.0f;
 	}
 
 	// Sprint
