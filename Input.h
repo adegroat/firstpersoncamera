@@ -13,6 +13,8 @@ public:
 	static double mx, my, mdx, mdy; 	// Mouse x, y, dx, and dy
 	static bool mouseLeft;
 
+	static double mouseSensitivity;
+
 	static void keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 	static void mouseCallback(GLFWwindow* window, double x, double y);

@@ -11,6 +11,9 @@ double Input::mdy;
 
 bool Input::mouseLeft;
 
+double Input::mouseSensitivity = 0.5;
+
+
 void Input::keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if(action == GLFW_PRESS) {
 		keys[key] = true;
