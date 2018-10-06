@@ -15,8 +15,6 @@ protected:
 	float yaw; // rotation around the Y axis
 	float pitch; // rotation around the X axis
 
-	float rotationSpeed;
-
 public:
 	Camera(float x, float y, float z);
 	glm::mat4 viewMatrix();

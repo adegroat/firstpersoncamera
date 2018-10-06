@@ -21,8 +21,6 @@ Camera::Camera(float x, float y, float z) {
 
 	yaw = 0.0f;
 	pitch = 0.0f;
-
-	rotationSpeed = 0.5f;
 }
 
 glm::mat4 Camera::viewMatrix() {

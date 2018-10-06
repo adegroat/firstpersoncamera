@@ -20,6 +20,8 @@ public:
 
 private:
 	float moveSpeed;
+	float rotationSpeed; // rotation speed when using arrow keys
+
 	glm::vec3 velocity;
 };
 

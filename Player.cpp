@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(float x, float y, float z) : Camera(x, y, z) {
-
+	rotationSpeed = 1.2f;
 }
 
 void Player::update(float dt) {
@@ -25,15 +25,24 @@ void Player::update(float dt) {
 		position -= velocity * dt;
 	}
 
-	// Look left, right, up, down
+	// Look left, right, up, down with keys
 	if(Input::keys[GLFW_KEY_LEFT]) {
-		yaw -= rotationSpeed;
+		yaw -= rotationSpeed * dt;
 	}
 
 	if(Input::keys[GLFW_KEY_RIGHT]) {
-		yaw += rotationSpeed;
+		yaw += rotationSpeed * dt;
 	}
 
+	if(Input::keys[GLFW_KEY_UP]) {
+		pitch += rotationSpeed * dt;
+	}
+
+	if(Input::keys[GLFW_KEY_DOWN]) {
+		pitch -= rotationSpeed * dt;
+	}
+
+	// Mouse looking
 	if(abs(Input::mdx) > 0.1f) {
 		yaw += Input::mdx * Input::mouseSensitivity * dt;
 		Input::mdx = 0.0f;
