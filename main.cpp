@@ -60,8 +60,16 @@ int main() {
 
 
 	glEnable(GL_DEPTH_TEST);
+	//glEnable( GL_CULL_FACE );
+	//glFrontFace( GL_CCW );
+    //glCullFace( GL_BACK );
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 
-	glClearColor( 92.0f / 255.0f, 188.0f / 255.0f, 219.0f / 255.0f, 1.0f );
+	float diffuseCol[4] = { 0.4, 0.4, 0.4, 1.0 };
+    glLightfv( GL_LIGHT0, GL_DIFFUSE, diffuseCol );
+
+	glClearColor( 0.0f, 0.0f, 0.05f, 1.0f );
 
 	initialize();
 
@@ -92,6 +100,9 @@ int main() {
 		glm::mat4 viewMatrix = player->viewMatrix();
 		glMultMatrixf(&viewMatrix[0][0]);
 
+		float lPosition[4] = { 0.0f, 150.0f, 0.0f, 1.0f };
+        glLightfv( GL_LIGHT0, GL_POSITION, lPosition );
+
 		update(dt);
 
 		// draw stuff
@@ -111,18 +122,39 @@ int main() {
 void drawFloor() {
 	float gridSize = 10.0f;
 
+	float redMat[4] = { 0.61424f, 0.04136f, 0.04136f, 1.0f };
+    float redShine = 76.8;
+
+	float greenMat[4] = { 0.54f, 0.89f, 0.63f, 1.0f };
+    float greenShine = 12.8f;
+
 	glBegin(GL_TRIANGLES);
 		for(int x = -WORLD_RADIUS; x < WORLD_RADIUS; x++) {
 			for(int z = -WORLD_RADIUS; z < WORLD_RADIUS; z++) {
-				if(x % 2 == 0 && z % 2 != 0) glColor3f(0.7f, 0.3f, 0.2f);
-				else glColor3f(0.0f, 0.7f, 0.1f);
+				if(x % 2 == 0 && z % 2 != 0){
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, redMat);
+				    glMaterialf(GL_FRONT, GL_SHININESS, redShine);
+				} else {
+					glMaterialfv(GL_FRONT, GL_DIFFUSE, greenMat);
+				    glMaterialf(GL_FRONT, GL_SHININESS, greenShine);
+				}
 
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize, 0.0f, (float)z * gridSize);
+
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize + gridSize, 0.0f, (float)z * gridSize);
+
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize + gridSize, 0.0f, (float)z * gridSize + gridSize);
 
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize + gridSize, 0.0f, (float)z * gridSize + gridSize);
+				
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize, 0.0f, (float)z * gridSize + gridSize);
+				
+				glNormal3f(0.0f, 1.0f, 0.0f);
 				glVertex3f((float)x * gridSize, 0.0f, (float)z * gridSize);
 			}
 		}
