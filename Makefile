@@ -1,4 +1,4 @@
-EXECUTABLE = glfwsetup
+EXECUTABLE = fpcam
 
 # Includes
 INCLUDE_PATH += -I/usr/include
